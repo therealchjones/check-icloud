@@ -1,0 +1,23 @@
+#!/bin/zsh
+
+declare -A pathids=( \
+  ["/Users/chjones/Library/Mobile Documents/com~apple~CloudDocs"]=0101000000, \ 
+)
+
+finditemid () {
+  parentname="$( dirname "$1")"
+  if [ "$1" = "$parentname" ]; then
+    return 1
+  fi
+  parentid="$( getitemid "$parentname" )" || return 1
+  filename="$( basename "$1")"
+  fileid="$( sqlite3 
+}
+
+getitemid () {
+  if [ -n "${pathids[$1]}" ]; then
+    echo "${pathids[$1]}"
+  else
+    finditemid "$1"
+  fi
+}
